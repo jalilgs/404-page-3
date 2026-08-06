@@ -1,0 +1,197 @@
+/* --- Reset & Base --- */
+:root {
+    --bg-color: #0A0B0E;
+    --text-primary: #F3F4F6;
+    --text-secondary: #8B92A5;
+    --btn-bg: #FFFFFF;
+    --btn-text: #000000;
+    --focus-ring: rgba(255, 255, 255, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Layout --- */
+.error-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    width: 100%;
+    padding: 2rem 5%;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- Typography --- */
+.content-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 2;
+}
+
+.error-code {
+    font-size: clamp(6rem, 12vw, 10rem);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+}
+
+.description {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 400px;
+    margin-bottom: 2.5rem;
+}
+
+/* --- Magnetic Button --- */
+.action-wrapper {
+    position: relative;
+    /* Extra padding catches the mouse early for the magnetic effect */
+    padding: 1rem; 
+    margin: -1rem; 
+}
+
+.magnetic-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 100px; /* Pill shape */
+    font-weight: 600;
+    font-size: 1rem;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.magnetic-btn:hover {
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+.magnetic-btn:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 4px;
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.magnetic-btn:hover .btn-icon {
+    transform: translateX(4px);
+}
+
+/* --- Visual / Illustration --- */
+.visual-section {
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration-wrapper {
+    width: 100%;
+    max-width: 500px;
+    transition: transform 0.1s linear;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.illustration {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    /* Fallback floating animation if JS is disabled */
+    animation: float 6s ease-in-out infinite; 
+}
+
+/* --- Keyframes --- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 900px) {
+    .error-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .content-section {
+        align-items: center;
+    }
+
+    .description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .visual-section {
+        order: -1; /* Puts illustration on top for mobile */
+    }
+
+    .illustration-wrapper {
+        max-width: 350px;
+    }
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    .error-container, .illustration {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .magnetic-btn {
+        transition: none !important;
+    }
+}
